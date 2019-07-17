@@ -6,6 +6,7 @@ import MessageList from './components/messageList'
 class App extends React.Component {
   state = {
     messages: [],
+    allSelected:false,
   };
   componentDidMount = async () => {
     const res = await fetch('http://localhost:8082/api/messages');
@@ -19,6 +20,7 @@ class App extends React.Component {
         }
       })
     })
+    console.log(this.state)
   };
 
   toggleStarred = e => {
@@ -47,11 +49,24 @@ class App extends React.Component {
     }))
   };
 
+  toggleAllSelect = () => {
+    this.setState(prevState => ({
+      ...prevState,
+      allSelected: !this.state.allSelected,
+      messages: prevState.messages.map(message => {
+        return {
+          ...message,
+          checked: !this.state.allSelected
+        }
+      })
+    }))
+  };
+
   render (){
     return(
       <div>
         <div className='container'>
-          <ToolBar />
+          <ToolBar messages={this.state.messages} toggleAllSelect={this.toggleAllSelect} allSelected={this.state.allSelected}/>
           <MessageList messages={this.state.messages} toggleStarred={this.toggleStarred} toggleSelected={this.toggleSelected} />
         </div>
 

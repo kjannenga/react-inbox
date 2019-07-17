@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-function  ToolBar() {
+function  ToolBar({toggleAllSelect, allSelected}) {
     return (
         <div>
             <div className="row toolbar">
@@ -12,7 +12,9 @@ function  ToolBar() {
                     </p>
 
                     <button className="btn btn-default">
-                        <i className="fa fa-square-o"></i>
+                        {allSelected ?  <i className="fa fa-check-square-o" onClick={toggleAllSelect}></i> : <i className="fa fa-square-o" onClick={toggleAllSelect}></i>}
+
+
                     </button>
 
                     <button className="btn btn-default" disabled="disabled">
