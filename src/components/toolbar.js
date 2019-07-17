@@ -1,7 +1,12 @@
 import React from 'react';
 
 
-function  ToolBar({toggleAllSelect, allSelected}) {
+function  ToolBar({toggleAllSelect, allSelected, messages}) {
+    const selectedList = messages.filter(message => message.checked === true);
+    let active = false;
+    if (selectedList.length > 0){
+        active = true
+    }
     return (
         <div>
             <div className="row toolbar">
@@ -17,31 +22,64 @@ function  ToolBar({toggleAllSelect, allSelected}) {
 
                     </button>
 
-                    <button className="btn btn-default" disabled="disabled">
-                        Mark As Read
-                    </button>
+                    {active ?
+                        <span>
+                            <button className="btn btn-default">
+                                Mark As Read
+                            </button>
 
-                    <button className="btn btn-default" disabled="disabled">
-                        Mark As Unread
-                    </button>
+                            <button className = "btn btn-default" >
+                                Mark As Unread
+                            </button>
 
-                    <select className="form-control label-select" disabled="disabled">
-                        <option>Apply label</option>
-                        <option value="dev">dev</option>
-                        <option value="personal">personal</option>
-                        <option value="gschool">gschool</option>
-                    </select>
+                            <select className="form-control label-select">
+                                <option>Apply label</option>
+                                <option value="dev">dev</option>
+                                <option value="personal">personal</option>
+                                <option value="gschool">gschool</option>
+                            </select>
 
-                    <select className="form-control label-select" disabled="disabled">
-                        <option>Remove label</option>
-                        <option value="dev">dev</option>
-                        <option value="personal">personal</option>
-                        <option value="gschool">gschool</option>
-                    </select>
+                            <select className="form-control label-select">
+                                <option>Remove label</option>
+                                <option value="dev">dev</option>
+                                <option value="personal">personal</option>
+                                <option value="gschool">gschool</option>
+                            </select>
 
-                    <button className="btn btn-default" disabled="disabled">
-                        <i className="fa fa-trash-o"></i>
-                    </button>
+                            <button className="btn btn-default">
+                                <i className="fa fa-trash-o"></i>
+                            </button>
+                        </span> :
+                        <span>
+                            <button className="btn btn-default" disabled='disabled'>
+                                Mark As Read
+                            </button>
+
+                            <button className="btn btn-default" disabled="disabled">
+                                Mark As Unread
+                            </button>
+
+                            <select className="form-control label-select" disabled="disabled">
+                                <option>Apply label</option>
+                                <option value="dev">dev</option>
+                                <option value="personal">personal</option>
+                                <option value="gschool">gschool</option>
+                            </select>
+
+                            <select className="form-control label-select" disabled="disabled">
+                                <option>Remove label</option>
+                                <option value="dev">dev</option>
+                                <option value="personal">personal</option>
+                                <option value="gschool">gschool</option>
+                            </select>
+
+                            <button className="btn btn-default" disabled="disabled">
+                                <i className="fa fa-trash-o"></i>
+                            </button>
+                        </span>
+                        }
+
+
                 </div>
             </div>
         </div>
