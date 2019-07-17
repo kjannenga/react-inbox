@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-function  ToolBar({toggleAllSelect, allSelected, messages}) {
+function  ToolBar({toggleAllSelect, allSelected, messages, changeToRead, changeToUnread}) {
     const selectedList = messages.filter(message => message.checked === true);
     let active = false;
     if (selectedList.length > 0){
@@ -24,11 +24,11 @@ function  ToolBar({toggleAllSelect, allSelected, messages}) {
 
                     {active ?
                         <span>
-                            <button className="btn btn-default">
+                            <button className="btn btn-default" onClick={changeToRead}>
                                 Mark As Read
                             </button>
 
-                            <button className = "btn btn-default" >
+                            <button className = "btn btn-default" onClick={changeToUnread}>
                                 Mark As Unread
                             </button>
 

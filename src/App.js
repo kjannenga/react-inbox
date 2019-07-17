@@ -62,11 +62,45 @@ class App extends React.Component {
     }))
   };
 
+  changeToRead = () => {
+    this.setState(prevState => ({
+      ...prevState,
+      messages: prevState.messages.map(message => {
+        if (message.checked === true){
+          return{
+            ...message,
+            read: true,
+            checked:false
+          }
+        }return{
+          ...message
+        }
+      })
+    }))
+  };
+
+  changeToUnread = () => {
+    this.setState(prevState => ({
+      ...prevState,
+      messages: prevState.messages.map(message => {
+        if (message.checked === true){
+          return{
+            ...message,
+            read: false,
+            checked:false
+          }
+        }return{
+          ...message
+        }
+      })
+    }))
+  };
+
   render (){
     return(
       <div>
         <div className='container'>
-          <ToolBar messages={this.state.messages} toggleAllSelect={this.toggleAllSelect} allSelected={this.state.allSelected}/>
+          <ToolBar messages={this.state.messages} toggleAllSelect={this.toggleAllSelect} allSelected={this.state.allSelected} changeToRead={this.changeToRead} changeToUnread={this.changeToUnread}/>
           <MessageList messages={this.state.messages} toggleStarred={this.toggleStarred} toggleSelected={this.toggleSelected} />
         </div>
 
