@@ -1,26 +1,64 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import ToolBar from './components/toolbar'
+import MessageList from './components/messageList'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  state = {
+    messages: [],
+  };
+  componentDidMount = async () => {
+    const res = await fetch('http://localhost:8082/api/messages');
+    const json = await res.json();
+    this.setState({
+      messages: json.map((message) => {
+        let checked = false
+        return {
+          ...message,
+          checked
+        }
+      })
+    })
+  };
+
+  toggleStarred = e => {
+    const num = e.target.id;
+    console.log(num)
+    this.setState(prevState => ({
+        messages: prevState.messages.map(message => {
+          return {
+            ...message,
+            starred: message.id == num ? !message.starred : message.starred
+          }
+        })
+    }))
+  };
+
+  toggleSelected = e => {
+    const num = e.target.id;
+    console.log(num)
+    this.setState(prevState => ({
+      messages: prevState.messages.map(message => {
+        return {
+          ...message,
+          checked: message.id == num ? !message.checked : message.checked
+        }
+      })
+    }))
+  };
+
+  render (){
+    return(
+      <div>
+        <div className='container'>
+          <ToolBar />
+          <MessageList messages={this.state.messages} toggleStarred={this.toggleStarred} toggleSelected={this.toggleSelected} />
+        </div>
+
+      </div>
+
+  )
+  }
 }
 
 export default App;
