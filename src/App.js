@@ -65,6 +65,7 @@ class App extends React.Component {
   changeToRead = () => {
     this.setState(prevState => ({
       ...prevState,
+      allSelected:false,
       messages: prevState.messages.map(message => {
         if (message.checked === true){
           return{
@@ -82,6 +83,7 @@ class App extends React.Component {
   changeToUnread = () => {
     this.setState(prevState => ({
       ...prevState,
+      allSelected:false,
       messages: prevState.messages.map(message => {
         if (message.checked === true){
           return{
@@ -96,11 +98,19 @@ class App extends React.Component {
     }))
   };
 
+  deleteMessages = () => {
+    this.setState(prevState => ({
+      ...prevState,
+      allSelected:false,
+      messages: prevState.messages.filter(message => message.checked === false)
+    }))
+  }
+
   render (){
     return(
       <div>
         <div className='container'>
-          <ToolBar messages={this.state.messages} toggleAllSelect={this.toggleAllSelect} allSelected={this.state.allSelected} changeToRead={this.changeToRead} changeToUnread={this.changeToUnread}/>
+          <ToolBar messages={this.state.messages} toggleAllSelect={this.toggleAllSelect} allSelected={this.state.allSelected} changeToRead={this.changeToRead} changeToUnread={this.changeToUnread} deleteMessages={this.deleteMessages}/>
           <MessageList messages={this.state.messages} toggleStarred={this.toggleStarred} toggleSelected={this.toggleSelected} />
         </div>
 

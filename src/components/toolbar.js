@@ -1,7 +1,9 @@
 import React from 'react';
 
 
-function  ToolBar({toggleAllSelect, allSelected, messages, changeToRead, changeToUnread}) {
+function  ToolBar({toggleAllSelect, allSelected, messages, changeToRead, changeToUnread, deleteMessages}) {
+    const read = messages.filter(message => message.read === false);
+    const readCount = read.length;
     const selectedList = messages.filter(message => message.checked === true);
     let active = false;
     if (selectedList.length > 0){
@@ -12,12 +14,15 @@ function  ToolBar({toggleAllSelect, allSelected, messages, changeToRead, changeT
             <div className="row toolbar">
                 <div className="col-md-12">
                     <p className="pull-right">
-                        <span className="badge badge">2</span>
+                        <span className="badge badge">{readCount}</span>
                         unread messages
                     </p>
 
                     <button className="btn btn-default">
-                        {allSelected ?  <i className="fa fa-check-square-o" onClick={toggleAllSelect}></i> : <i className="fa fa-square-o" onClick={toggleAllSelect}></i>}
+                        {allSelected &&  <i className="fa fa-check-square-o" onClick={toggleAllSelect}></i>}
+                        {!allSelected && !active && <i className="fa fa-square-o" onClick={toggleAllSelect}/>}
+                        {!allSelected && active && <i className="fa fa-minus-square-o" onClick={toggleAllSelect}></i>}
+
 
 
                     </button>
@@ -47,7 +52,7 @@ function  ToolBar({toggleAllSelect, allSelected, messages, changeToRead, changeT
                             </select>
 
                             <button className="btn btn-default">
-                                <i className="fa fa-trash-o"></i>
+                                <i className="fa fa-trash-o" onClick={deleteMessages}></i>
                             </button>
                         </span> :
                         <span>
