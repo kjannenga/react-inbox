@@ -19,9 +19,9 @@ function Message({id, subject, read, starred, labels, checked, toggleStarred, to
                 </div>
                 <div className="col-xs-11">
                     {labels &&  labels.map((label,i) => <span key={i} className="label label-warning">{label}</span>)}
-                    <p>
+                    <a>
                         {subject}
-                    </p>
+                    </a>
                 </div>
             </div>
         </div>

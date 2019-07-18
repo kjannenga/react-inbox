@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-function  ToolBar({toggleAllSelect, allSelected, messages, changeToRead, changeToUnread, deleteMessages}) {
+function  ToolBar({toggleAllSelect, allSelected, messages, changeToRead, changeToUnread, deleteMessages, addLabel, removeLabel}) {
     const read = messages.filter(message => message.read === false);
     const readCount = read.length;
     const selectedList = messages.filter(message => message.checked === true);
@@ -22,9 +22,6 @@ function  ToolBar({toggleAllSelect, allSelected, messages, changeToRead, changeT
                         {allSelected &&  <i className="fa fa-check-square-o" onClick={toggleAllSelect}></i>}
                         {!allSelected && !active && <i className="fa fa-square-o" onClick={toggleAllSelect}/>}
                         {!allSelected && active && <i className="fa fa-minus-square-o" onClick={toggleAllSelect}></i>}
-
-
-
                     </button>
 
                     {active ?
@@ -37,15 +34,15 @@ function  ToolBar({toggleAllSelect, allSelected, messages, changeToRead, changeT
                                 Mark As Unread
                             </button>
 
-                            <select className="form-control label-select">
-                                <option>Apply label</option>
+                            <select className="form-control label-select" onChange={addLabel}>
+                                <option disabled>Apply label</option>
                                 <option value="dev">dev</option>
                                 <option value="personal">personal</option>
                                 <option value="gschool">gschool</option>
                             </select>
 
-                            <select className="form-control label-select">
-                                <option>Remove label</option>
+                            <select className="form-control label-select" onChange={removeLabel}>
+                                <option disabled>Remove label</option>
                                 <option value="dev">dev</option>
                                 <option value="personal">personal</option>
                                 <option value="gschool">gschool</option>
@@ -65,14 +62,14 @@ function  ToolBar({toggleAllSelect, allSelected, messages, changeToRead, changeT
                             </button>
 
                             <select className="form-control label-select" disabled="disabled">
-                                <option>Apply label</option>
+                                <option selected="selected">Apply label</option>
                                 <option value="dev">dev</option>
                                 <option value="personal">personal</option>
                                 <option value="gschool">gschool</option>
                             </select>
 
                             <select className="form-control label-select" disabled="disabled">
-                                <option>Remove label</option>
+                                <option selected="selected">Remove label</option>
                                 <option value="dev">dev</option>
                                 <option value="personal">personal</option>
                                 <option value="gschool">gschool</option>

@@ -104,13 +104,56 @@ class App extends React.Component {
       allSelected:false,
       messages: prevState.messages.filter(message => message.checked === false)
     }))
+  };
+
+  addLabel = (e) => {
+    const newLabel = e.target.value;
+    this.setState(prevState => ({
+      ...prevState,
+      messages: prevState.messages.map(message => {
+        if (message.checked === true){
+          if (message.labels.includes(newLabel) === false){
+            return{
+              ...message,
+              labels: [...message.labels, newLabel],
+              checked:false
+            }
+          }
+        }return{
+          ...message,
+          checked:false
+        }
+      })
+    }))
   }
+
+  removeLabel = (e) => {
+    const newLabel = e.target.value;
+    this.setState(prevState => ({
+      ...prevState,
+      messages: prevState.messages.map(message => {
+        if (message.checked === true){
+          if (message.labels.includes(newLabel) === true){
+            return{
+              ...message,
+              labels: message.labels.filter(label => label !== newLabel),
+              checked:false
+            }
+          }
+        }return{
+          ...message,
+          checked:false
+        }
+      })
+    }))
+  }
+
 
   render (){
     return(
       <div>
         <div className='container'>
-          <ToolBar messages={this.state.messages} toggleAllSelect={this.toggleAllSelect} allSelected={this.state.allSelected} changeToRead={this.changeToRead} changeToUnread={this.changeToUnread} deleteMessages={this.deleteMessages}/>
+          <ToolBar messages={this.state.messages} toggleAllSelect={this.toggleAllSelect} allSelected={this.state.allSelected} removeLabel={this.removeLabel} addLabel={this.addLabel} changeToRead={this.changeToRead} changeToUnread={this.changeToUnread} deleteMessages={this.deleteMessages}/>
           <MessageList messages={this.state.messages} toggleStarred={this.toggleStarred} toggleSelected={this.toggleSelected} />
         </div>
 
