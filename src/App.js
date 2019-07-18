@@ -49,6 +49,7 @@ class App extends React.Component {
         'Content-Type': 'application/json'}
       })
     if(res.ok) {
+      console.log(res)
       this.setState(prevState => ({
         messages: prevState.messages.map(message => {
           return {
@@ -60,45 +61,72 @@ class App extends React.Component {
     }
   };
 
-  changeToRead = () => {
-    this.setState(prevState => ({
-      ...prevState,
-      allSelected:false,
-      messages: prevState.messages.map(message => {
-        if (message.checked === true){
-          return{
-            ...message,
-            read: true,
-            checked:false
+  changeToRead = async () => {
+    const url = 'http://localhost:8082/api/messages';
+    const messages = this.state.messages.filter(message => message.checked === true)
+    const messageIds = this.state.messages.filter( x => x.checked === true).map(x => x.id)
+    console.log(messageIds)
+    const res = await fetch(url, {
+      method: "PATCH",
+      body: JSON.stringify({...messages, messageIds: messageIds, command: "read", read:true}),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    if (res.ok) {
+      this.setState(prevState => ({
+        ...prevState,
+        allSelected: false,
+        messages: prevState.messages.map(message => {
+          if (message.checked === true) {
+            return {
+              ...message,
+              read: true,
+              checked: false
+            }
           }
-        }return{
-          ...message
-        }
-      })
-    }))
+          return {
+            ...message
+          }
+        })
+      }))
+    }
   };
 
-  changeToUnread = () => {
-    this.setState(prevState => ({
-      ...prevState,
-      allSelected:false,
-      messages: prevState.messages.map(message => {
-        if (message.checked === true){
-          return{
-            ...message,
-            read: false,
-            checked:false
+  changeToUnread = async () => {
+    const url = 'http://localhost:8082/api/messages';
+    const messages = this.state.messages.filter(message => message.checked === true)
+    const messageIds = this.state.messages.filter( x => x.checked === true).map(x => x.id)
+    console.log(messageIds)
+    const res = await fetch(url, {
+      method: "PATCH",
+      body: JSON.stringify({...messages, messageIds: messageIds, command: "read"}),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    if (res.ok) {
+      this.setState(prevState => ({
+        ...prevState,
+        allSelected: false,
+        messages: prevState.messages.map(message => {
+          if (message.checked === true) {
+            return {
+              ...message,
+              read: false,
+              checked: false
+            }
           }
-        }return{
-          ...message
-        }
-      })
-    }))
+          return {
+            ...message
+          }
+        })
+      }))
+    }
   };
 
   toggleSelected = e => {
     const num = e.target.id;
-    console.log(num)
     this.setState(prevState => ({
       messages: prevState.messages.map(message => {
         return {
