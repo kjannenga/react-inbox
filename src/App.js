@@ -152,54 +152,95 @@ class App extends React.Component {
 
 
 
-  deleteMessages = () => {
-    this.setState(prevState => ({
-      ...prevState,
-      allSelected:false,
-      messages: prevState.messages.filter(message => message.checked === false)
-    }))
+  deleteMessages = async() => {
+    const url = 'http://localhost:8082/api/messages';
+    const messages = this.state.messages.filter(message => message.checked === true)
+    const messageIds = this.state.messages.filter( x => x.checked === true).map(x => x.id)
+    console.log(messageIds)
+    const res = await fetch(url, {
+      method: "PATCH",
+      body: JSON.stringify({...messages, messageIds: messageIds, command: "delete"}),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    if(res.ok){
+      this.setState(prevState => ({
+        ...prevState,
+        allSelected:false,
+        messages: prevState.messages.filter(message => message.checked === false)
+      }))
+    }
+
   };
 
-  addLabel = (e) => {
+  addLabel = async (e) => {
+    const url = 'http://localhost:8082/api/messages';
+    const messages = this.state.messages.filter(message => message.checked === true)
+    const messageIds = this.state.messages.filter( x => x.checked === true).map(x => x.id)
     const newLabel = e.target.value;
-    this.setState(prevState => ({
-      ...prevState,
-      messages: prevState.messages.map(message => {
-        if (message.checked === true){
-          if (message.labels.includes(newLabel) === false){
-            return{
-              ...message,
-              labels: [...message.labels, newLabel],
-              checked:false
+    console.log(messageIds)
+    const res = await fetch(url, {
+      method: "PATCH",
+      body: JSON.stringify({...messages, messageIds: messageIds, command: "addLabel", label: newLabel}),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    if(res.ok) {
+      this.setState(prevState => ({
+        ...prevState,
+        messages: prevState.messages.map(message => {
+          if (message.checked === true) {
+            if (message.labels.includes(newLabel) === false) {
+              return {
+                ...message,
+                labels: [...message.labels, newLabel],
+                checked: false
+              }
             }
           }
-        }return{
-          ...message,
-          checked:false
-        }
-      })
-    }))
+          return {
+            ...message,
+            checked: false
+          }
+        })
+      }))
+    }
   }
 
-  removeLabel = (e) => {
+  removeLabel = async (e) => {
+    const url = 'http://localhost:8082/api/messages';
+    const messages = this.state.messages.filter(message => message.checked === true)
+    const messageIds = this.state.messages.filter( x => x.checked === true).map(x => x.id)
     const newLabel = e.target.value;
-    this.setState(prevState => ({
-      ...prevState,
-      messages: prevState.messages.map(message => {
-        if (message.checked === true){
-          if (message.labels.includes(newLabel) === true){
-            return{
-              ...message,
-              labels: message.labels.filter(label => label !== newLabel),
-              checked:false
+    console.log(messageIds)
+    const res = await fetch(url, {
+      method: "PATCH",
+      body: JSON.stringify({...messages, messageIds: messageIds, command: "removeLabel", label: newLabel}),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    if (res.ok){
+      this.setState(prevState => ({
+        ...prevState,
+        messages: prevState.messages.map(message => {
+          if (message.checked === true){
+            if (message.labels.includes(newLabel) === true){
+              return{
+                ...message,
+                labels: message.labels.filter(label => label !== newLabel),
+                checked:false
+              }
             }
+          }return{
+            ...message,
+            checked:false
           }
-        }return{
-          ...message,
-          checked:false
-        }
-      })
-    }))
+        })
+      }))
+    }
   }
 
 
