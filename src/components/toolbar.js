@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-function  ToolBar({toggleAllSelect, allSelected, messages, changeToRead, changeToUnread, deleteMessages, addLabel, removeLabel, toggleMessage, composeMessage}) {
+function  ToolBar({toggleAllSelect, allSelected, sendMessage, messages, changeToRead, changeToUnread, deleteMessages, addLabel, removeLabel, toggleMessage, composeMessage}) {
     const read = messages.filter(message => message.read === false);
     const readCount = read.length;
     const selectedList = messages.filter(message => message.checked === true);
@@ -90,7 +90,7 @@ function  ToolBar({toggleAllSelect, allSelected, messages, changeToRead, changeT
             </div>
             {composeMessage &&
             <div>
-                <form className="form-horizontal well">
+                <form className="form-horizontal well" onSubmit={sendMessage}>
                     <div className="form-group">
                         <div className="col-sm-8 col-sm-offset-2">
                             <h4>Compose Message</h4>

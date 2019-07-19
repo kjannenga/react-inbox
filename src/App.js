@@ -250,6 +250,30 @@ class App extends React.Component {
         })
       }))
     }
+  };
+
+  sendMessage = async (e) => {
+    e.preventDefault();
+    const url = 'http://localhost:8082/api/messages';
+    const subject = e.target.subject.value;
+    const body = e.target.body.value;
+    const res = await fetch(url, {
+      method: "POST",
+      body: JSON.stringify({subject:subject, body:body}),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    if (res.ok){
+      const newMessage = await res.json()
+      this.setState(prevState => {
+        return {
+          ...prevState,
+          composeMessage:false,
+          messages: [...prevState.messages, newMessage]
+        }
+      })
+    }
   }
 
 
@@ -257,7 +281,7 @@ class App extends React.Component {
     return(
       <div>
         <div className='container'>
-          <ToolBar messages={this.state.messages} composeMessage={this.state.composeMessage} toggleMessage={this.toggleMessage} toggleAllSelect={this.toggleAllSelect} allSelected={this.state.allSelected} removeLabel={this.removeLabel} addLabel={this.addLabel} changeToRead={this.changeToRead} changeToUnread={this.changeToUnread} deleteMessages={this.deleteMessages}/>
+          <ToolBar messages={this.state.messages} sendMessage={this.sendMessage} composeMessage={this.state.composeMessage} toggleMessage={this.toggleMessage} toggleAllSelect={this.toggleAllSelect} allSelected={this.state.allSelected} removeLabel={this.removeLabel} addLabel={this.addLabel} changeToRead={this.changeToRead} changeToUnread={this.changeToUnread} deleteMessages={this.deleteMessages}/>
           <MessageList messages={this.state.messages} toggleStarred={this.toggleStarred} toggleSelected={this.toggleSelected}  />
         </div>
 
