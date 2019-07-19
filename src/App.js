@@ -7,6 +7,7 @@ class App extends React.Component {
   state = {
     messages: [],
     allSelected:false,
+    composeMessage:false,
   };
   componentDidMount = async () => {
     const res = await fetch('http://localhost:8082/api/messages');
@@ -137,6 +138,7 @@ class App extends React.Component {
     }))
   };
 
+
   toggleAllSelect = () => {
     this.setState(prevState => ({
       ...prevState,
@@ -148,6 +150,13 @@ class App extends React.Component {
         }
       })
     }))
+  };
+
+  toggleMessage = () => {
+    this.setState(prevState => ({
+      ...prevState,
+      composeMessage: !prevState.composeMessage
+      }))
   };
 
 
@@ -163,7 +172,7 @@ class App extends React.Component {
       headers: {
         'Content-Type': 'application/json'
       }
-    })
+    });
     if(res.ok){
       this.setState(prevState => ({
         ...prevState,
@@ -248,8 +257,8 @@ class App extends React.Component {
     return(
       <div>
         <div className='container'>
-          <ToolBar messages={this.state.messages} toggleAllSelect={this.toggleAllSelect} allSelected={this.state.allSelected} removeLabel={this.removeLabel} addLabel={this.addLabel} changeToRead={this.changeToRead} changeToUnread={this.changeToUnread} deleteMessages={this.deleteMessages}/>
-          <MessageList messages={this.state.messages} toggleStarred={this.toggleStarred} toggleSelected={this.toggleSelected} />
+          <ToolBar messages={this.state.messages} composeMessage={this.state.composeMessage} toggleMessage={this.toggleMessage} toggleAllSelect={this.toggleAllSelect} allSelected={this.state.allSelected} removeLabel={this.removeLabel} addLabel={this.addLabel} changeToRead={this.changeToRead} changeToUnread={this.changeToUnread} deleteMessages={this.deleteMessages}/>
+          <MessageList messages={this.state.messages} toggleStarred={this.toggleStarred} toggleSelected={this.toggleSelected}  />
         </div>
 
       </div>

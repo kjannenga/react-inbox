@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-function  ToolBar({toggleAllSelect, allSelected, messages, changeToRead, changeToUnread, deleteMessages, addLabel, removeLabel}) {
+function  ToolBar({toggleAllSelect, allSelected, messages, changeToRead, changeToUnread, deleteMessages, addLabel, removeLabel, toggleMessage, composeMessage}) {
     const read = messages.filter(message => message.read === false);
     const readCount = read.length;
     const selectedList = messages.filter(message => message.checked === true);
@@ -17,6 +17,10 @@ function  ToolBar({toggleAllSelect, allSelected, messages, changeToRead, changeT
                         <span className="badge badge">{readCount}</span>
                         unread messages
                     </p>
+
+                    <a className="btn btn-danger" onClick={toggleMessage}>
+                        <i className="fa fa-plus"></i>
+                    </a>
 
                     <button className="btn btn-default">
                         {allSelected &&  <i className="fa fa-check-square-o" onClick={toggleAllSelect}></i>}
@@ -84,6 +88,35 @@ function  ToolBar({toggleAllSelect, allSelected, messages, changeToRead, changeT
 
                 </div>
             </div>
+            {composeMessage &&
+            <div>
+                <form className="form-horizontal well">
+                    <div className="form-group">
+                        <div className="col-sm-8 col-sm-offset-2">
+                            <h4>Compose Message</h4>
+                        </div>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="subject" className="col-sm-2 control-label">Subject</label>
+                        <div className="col-sm-8">
+                            <input type="text" className="form-control" id="subject" placeholder="Enter a subject"
+                                   name="subject"/>
+                        </div>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="body" className="col-sm-2 control-label">Body</label>
+                        <div className="col-sm-8">
+                            <textarea name="body" id="body" className="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div className="form-group">
+                        <div className="col-sm-8 col-sm-offset-2">
+                            <input type="submit" value="Send" className="btn btn-primary"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            }
         </div>
     )
 }
